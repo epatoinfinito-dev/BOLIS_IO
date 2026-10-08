@@ -1,7 +1,7 @@
 {
   "name": "BolisIO · Control de bolis",
   "short_name": "BolisIO",
-  "description": "Ventas, clientes, inventario y rentabilidad de tu negocio de bolis. Creada por Eduardo Palacios T.",
+  "description": "Ventas, clientes, inventario y rentabilidad de tu negocio de bolis. Creada por Eduardo Palacios T .",
   "id": "./",
   "start_url": "./index.html",
   "scope": "./",
