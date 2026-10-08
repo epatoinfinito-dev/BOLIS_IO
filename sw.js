@@ -3,7 +3,7 @@
    IMPORTANTE: al cambiar cualquier archivo de la app, sube VERSION
    (por ejemplo 'bolisio-v1.0.1'). Así los usuarios reciben la nueva versión.
    ========================================================= */
-const VERSION = 'bolisio-v1.0.2';
+const VERSION = 'bolisio-v1.0.3';
 
 // Archivos necesarios para abrir la app sin conexión. Rutas relativas (GitHub Pages).
 const ESTATICOS = [
