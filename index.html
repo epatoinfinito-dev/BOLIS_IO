@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es-CO">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2b1a12">
+<meta name="description" content="BolisIO: ventas, clientes, inventario y rentabilidad de tu negocio de bolis. Creada por Eduardo.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="BolisIO">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<title>BolisIO</title>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">Bolis<b>IO</b></div>
+</header>
+
+<div class="app">
+  <nav class="tabs" aria-label="Módulos principales">
+    <div class="side-brand">Bolis<b>IO</b></div>
+    <button data-v="ventas" aria-current="page"><span class="ic">🛒</span><span>Ventas</span></button>
+    <button data-v="clientes"><span class="ic">👥</span><span>Clientes</span></button>
+    <button data-v="inventario"><span class="ic">📦</span><span>Inventario</span></button>
+    <button data-v="rentabilidad"><span class="ic">📈</span><span>Rentabilidad</span></button>
+    <button data-v="estadisticas"><span class="ic">📊</span><span>Estadísticas</span></button>
+    <button data-v="exportar"><span class="ic">💾</span><span>Exportar</span></button>
+  </nav>
+
+  <main>
+    <!-- ================= VENTAS ================= -->
+    <section class="view on" id="v-ventas">
+      <div class="titulo"><h2>Punto de venta</h2><span class="muted" id="fechaHoy"></span></div>
+      <div class="venta">
+        <div class="grid-prod" id="grid"></div>
+
+        <aside class="card carrito" aria-live="polite">
+          <h3>Carrito</h3>
+          <div id="lineas"></div>
+          <p class="muted" id="vacio">Toca un bolis para agregarlo.</p>
+
+          <div class="pagos" role="group" aria-label="Método de pago">
+            <button type="button" data-pago="efectivo" aria-pressed="true">💵 Efectivo</button>
+            <button type="button" data-pago="transferencia" aria-pressed="false">📲 Transfer.</button>
+            <button type="button" data-pago="fiao" aria-pressed="false">📝 Fiao</button>
+          </div>
+
+          <label id="labelCliente" hidden>Cliente (obligatorio en fiao)
+            <select id="selCliente"></select>
+          </label>
+
+          <div class="total" id="total">$0</div>
+          <p class="err" id="errVenta"></p>
+          <button class="cobrar" id="cobrar">Confirmar venta</button>
+        </aside>
+      </div>
+
+      <h3 class="subtitulo">Ventas recientes</h3>
+      <div class="lista" id="listaVentas"></div>
+    </section>
+
+    <!-- ================= CLIENTES ================= -->
+    <section class="view" id="v-clientes">
+      <div class="titulo">
+        <h2>Clientes</h2>
+        <button id="btnNuevoCliente">+ Nuevo cliente</button>
+      </div>
+      <div class="lista" id="listaClientes"></div>
+    </section>
+
+    <!-- ================= INVENTARIO ================= -->
+    <section class="view" id="v-inventario">
+      <div class="titulo"><h2>Inventario</h2></div>
+      <div class="panel2">
+        <div class="card">
+          <h3 class="subtitulo">Productos</h3>
+          <table>
+            <thead><tr><th>Producto</th><th>Stock</th><th>Precio</th><th><span class="sr">Acción</span></th></tr></thead>
+            <tbody id="tablaStock"></tbody>
+          </table>
+        </div>
+        <div class="card">
+          <h3 class="subtitulo">Registrar movimiento</h3>
+          <form class="form" id="formMov">
+            <label>Producto <select id="movProd"></select></label>
+            <div class="fila">
+              <label>Tipo
+                <select id="movTipo">
+                  <option value="entrada">Entrada (producción)</option>
+                  <option value="ajuste">Ajuste manual</option>
+                </select>
+              </label>
+              <label>Cantidad <input id="movCant" type="number" step="1" value="10"></label>
+            </div>
+            <label>Motivo <input id="movMotivo" placeholder="Ej: lote de la mañana"></label>
+            <button type="submit">Guardar movimiento</button>
+          </form>
+        </div>
+      </div>
+      <h3 class="subtitulo">Historial de movimientos</h3>
+      <div class="lista" id="listaMov"></div>
+    </section>
+
+    <!-- ================= RENTABILIDAD ================= -->
+    <section class="view" id="v-rentabilidad">
+      <div class="titulo">
+        <h2>Rentabilidad</h2>
+        <label class="ancho-auto">Periodo
+          <select id="periodo">
+            <option value="dia">Hoy</option>
+            <option value="semana" selected>Últimos 7 días</option>
+            <option value="mes">Este mes</option>
+            <option value="todo">Todo</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="kpis">
+        <div class="kpi"><small>Ventas</small><div class="n" id="kVentas">0</div></div>
+        <div class="kpi"><small>Utilidad bruta</small><div class="n" id="kUtil">0</div></div>
+        <div class="kpi"><small>Cartera fiao</small><div class="n" id="kCartera">0</div></div>
+        <div class="kpi"><small>Unidades</small><div class="n" id="kUnid">0</div></div>
+      </div>
+
+      <div class="panel2">
+        <div class="card">
+          <h3 class="subtitulo">Ventas por producto</h3>
+          <svg class="chart" id="chartProd" viewBox="0 0 600 220" preserveAspectRatio="none" role="img" aria-label="Unidades vendidas por producto"></svg>
+          <h3 class="subtitulo">Margen por producto</h3>
+          <table>
+            <thead><tr><th>Producto</th><th>Precio</th><th>Costo</th><th>Margen</th><th>Utilidad</th></tr></thead>
+            <tbody id="tablaMargen"></tbody>
+          </table>
+          <div class="aviso" id="destacados"></div>
+        </div>
+
+        <div class="panel2 una-columna">
+          <div class="card">
+            <h3 class="subtitulo">Ventas por método de pago</h3>
+            <div class="barras" id="barrasPago"></div>
+          </div>
+          <div class="card">
+            <h3 class="subtitulo">Cartera fiao (mayor saldo)</h3>
+            <div class="lista" id="ranking"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= ESTADÍSTICAS ================= -->
+    <section class="view" id="v-estadisticas">
+      <div class="titulo">
+        <h2>Estadísticas</h2>
+        <div class="qty no-print">
+          <select id="estPeriodo" aria-label="Periodo" class="ancho-auto">
+            <option value="semana" selected>Últimos 7 días</option>
+            <option value="mes">Este mes</option>
+            <option value="todo">Todo</option>
+          </select>
+          <button id="btnPdf">Descargar PDF</button>
+        </div>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><small>Ventas</small><div class="n" id="eVentas">0</div></div>
+        <div class="kpi"><small>Utilidad bruta</small><div class="n" id="eUtil">0</div></div>
+        <div class="kpi"><small>Bolis vendidos</small><div class="n" id="eUnid">0</div></div>
+        <div class="kpi"><small>Ticket promedio</small><div class="n" id="eTicket">0</div></div>
+      </div>
+      <div class="panel2">
+        <div class="card">
+          <h3 class="subtitulo">Ventas de los últimos 7 días</h3>
+          <svg class="chart" id="chartDias" viewBox="0 0 600 220" preserveAspectRatio="none" role="img" aria-label="Ventas de los últimos 7 días"></svg>
+        </div>
+        <div class="card">
+          <h3 class="subtitulo">Productos más vendidos</h3>
+          <div class="barras" id="topProd"></div>
+        </div>
+      </div>
+      <p class="muted pie-reporte">Creada por Eduardo · Generado el <span id="estFecha"></span></p>
+    </section>
+
+    <!-- ================= EXPORTAR ================= -->
+    <section class="view" id="v-exportar">
+      <div class="titulo"><h2>Exportar datos</h2></div>
+      <div class="panel2">
+        <div class="card lista">
+          <h3>Exportar a Excel (CSV)</h3>
+          <p class="muted">Archivos separados por punto y coma, listos para abrir en Excel o Google Sheets.</p>
+          <button class="sec" data-csv="ventas">Descargar ventas.csv</button>
+          <button class="sec" data-csv="clientes">Descargar clientes.csv</button>
+          <button class="sec" data-csv="inventario">Descargar inventario.csv</button>
+        </div>
+        <div class="card lista">
+          <h3>Respaldo completo</h3>
+          <p class="muted">Guarda todos los datos en un JSON que después puedes importar, por ejemplo en otro celular.</p>
+          <button id="btnJson">Descargar respaldo JSON</button>
+          <label>Importar respaldo
+            <input type="file" id="fileJson" accept="application/json">
+          </label>
+          <p class="err" id="errExp"></p>
+        </div>
+      </div>
+    </section>
+
+    <footer>Creada por Eduardo</footer>
+  </main>
+</div>
+
+<!-- Confirmación de venta -->
+<div class="overlay" id="ovl" role="status">
+  <div class="ok"><div class="big" aria-hidden="true">🍧</div><h3>¡Venta registrada!</h3><p class="muted" id="ovlTxt"></p></div>
+</div>
+
+<!-- Mensajes breves -->
+<div class="toast" id="aviso" role="status" aria-live="polite"></div>
+
+<!-- Hoja: editar venta -->
+<dialog class="hoja" id="dlgEditar" aria-labelledby="eTitulo">
+  <h3 id="eTitulo">Editar venta</h3>
+  <form class="form" method="dialog">
+    <div id="eItems" class="lista"></div>
+    <label>Método de pago
+      <select id="ePago">
+        <option value="efectivo">Efectivo</option>
+        <option value="transferencia">Transferencia</option>
+        <option value="fiao">Fiao</option>
+      </select>
+    </label>
+    <label>Cliente <select id="eCliente"></select></label>
+    <p class="err" id="eErr"></p>
+    <div class="acciones">
+      <button type="button" class="sec" id="eCancel">Cancelar</button>
+      <button type="button" id="eGuardar">Guardar cambios</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Hoja: producto (nuevo o editar) -->
+<dialog class="hoja" id="dlgProd" aria-labelledby="tProd">
+  <h3 id="tProd">Nuevo producto (en blanco)</h3>
+  <form class="form" method="dialog">
+    <label>Nombre <input id="pNombre" required></label>
+    <div class="fila">
+      <label>Precio de venta (COP) <input id="pPrecio" type="number" min="1" step="1"></label>
+      <label>Costo unitario (COP) <input id="pCosto" type="number" min="0" step="1"></label>
+    </div>
+    <div class="fila">
+      <label>Stock inicial <input id="pStock" type="number" min="0" step="1" value="0"></label>
+      <label>Emoji (opcional) <input id="pEmoji" maxlength="4" placeholder="🍓"></label>
+    </div>
+    <p class="muted">El costo se registra por unidad. El stock se cambia después con movimientos de inventario.</p>
+    <p class="err" id="errProd"></p>
+    <div class="acciones">
+      <button type="button" class="sec" id="pCancel">Cancelar</button>
+      <button type="button" id="pGuardar">Guardar</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Hoja: cliente (nuevo o editar) -->
+<dialog class="hoja" id="dlgCliente" aria-labelledby="tCli">
+  <h3 id="tCli">Nuevo cliente</h3>
+  <form class="form" method="dialog">
+    <label>Nombre <input id="cNombre" required></label>
+    <label>Teléfono <input id="cTel" type="tel"></label>
+    <label>Notas <input id="cNotas"></label>
+    <p class="err" id="errCli"></p>
+    <div class="acciones">
+      <button type="button" class="sec" id="cCancel">Cancelar</button>
+      <button type="button" id="cGuardar">Guardar</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="js/app.js" type="module"></script>
+</body>
+</html>

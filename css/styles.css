@@ -1,0 +1,164 @@
+/* =========================================================
+   BolisIO · estilos
+   Identidad: tienda de barrio caribeña con colores de fruta.
+   Tipografía: Fraunces (títulos con carácter) + Bricolage Grotesque (texto).
+   ========================================================= */
+
+:root{
+  --cacao:#2b1a12; --crema:#fff4df; --arena:#f6e3c2;
+  --mango:#ffa41b; --maracuya:#f2542d; --lulo:#6fb536; --cielo:#2aa8b8;
+  --rojo:#c0392b; --radio:18px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Bricolage Grotesque',system-ui,sans-serif;background:var(--crema);color:var(--cacao);min-height:100dvh}
+h1,h2,h3{font-family:'Fraunces',Georgia,serif;margin:0;line-height:1.1}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer;border:0;border-radius:14px;padding:.75rem 1rem;font-weight:800;background:var(--cacao);color:var(--crema);transition:transform .15s,background .2s}
+button:hover{background:#4a2c1d}
+button:active{transform:scale(.95)}
+button.sec{background:var(--arena);color:var(--cacao)}
+button.sec:hover{background:#ecd3a6}
+button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+:focus-visible{outline:3px solid var(--cielo);outline-offset:2px}
+input,select{width:100%;padding:.7rem .85rem;border-radius:12px;border:2px solid var(--cacao);background:#fff}
+label{display:grid;gap:.3rem;font-weight:600;font-size:.9rem}
+.card{background:var(--arena);border-radius:var(--radio);padding:1rem;border:2px solid var(--cacao);box-shadow:5px 5px 0 var(--cacao)}
+.muted{opacity:.7;font-size:.9rem}
+.err{color:var(--rojo);font-weight:700;min-height:1.2em;font-size:.9rem;margin:.4rem 0 0}
+.money{font-variant-numeric:tabular-nums;font-weight:800}
+.bajo-txt{color:var(--maracuya);font-weight:800}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.ancho-auto{width:auto}
+
+/* ---------- Estructura ---------- */
+.app{display:grid;min-height:100dvh}
+header.top{background:var(--cacao);color:var(--crema);padding:.9rem 1.1rem;display:flex;justify-content:space-between;align-items:center;padding-top:calc(.9rem + env(safe-area-inset-top))}
+.brand{font-family:'Fraunces',serif;font-weight:900;font-size:1.6rem;letter-spacing:-.02em}
+.brand b{color:var(--mango)}
+main{padding:1rem 1rem 6rem;width:100%;max-width:1200px;margin:0 auto}
+.view{display:none;animation:entra .4s cubic-bezier(.2,.8,.2,1)}
+.view.on{display:block}
+@keyframes entra{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.titulo{display:flex;justify-content:space-between;align-items:end;gap:1rem;margin:.2rem 0 1rem;flex-wrap:wrap}
+.titulo h2{font-size:2rem}
+.subtitulo{font-size:1.2rem;margin:1.2rem 0 .6rem}
+.card .subtitulo:first-child{margin-top:0}
+.pie-reporte{margin-top:1rem}
+
+nav.tabs{position:fixed;bottom:0;left:0;right:0;display:flex;gap:.2rem;background:var(--cacao);padding:.4rem .3rem calc(.4rem + env(safe-area-inset-bottom));z-index:20;overflow-x:auto}
+nav.tabs button{flex:1 0 auto;min-width:64px;background:none;color:#c9b8a6;padding:.5rem .2rem;font-size:.74rem;border-radius:12px;display:grid;justify-items:center;gap:.1rem}
+nav.tabs button .ic{font-size:1.2rem}
+nav.tabs button[aria-current="page"]{color:var(--mango);background:rgba(255,255,255,.07)}
+nav.tabs .side-brand{display:none}
+footer{text-align:center;padding:1rem;font-size:.85rem;opacity:.7;margin-bottom:4.5rem}
+
+@media(min-width:900px){
+  .app{grid-template-columns:230px 1fr}
+  header.top{display:none}
+  nav.tabs{position:sticky;top:0;height:100dvh;flex-direction:column;align-items:stretch;padding:1.4rem 1rem;gap:.4rem;overflow:visible}
+  nav.tabs button{flex:none;text-align:left;display:flex;gap:.6rem;align-items:center;font-size:1rem;padding:.75rem 1rem;min-width:0}
+  nav.tabs button .ic{font-size:1.1rem}
+  nav.tabs .side-brand{display:block;color:var(--crema);font-family:'Fraunces',serif;font-weight:900;font-size:1.8rem;margin-bottom:1.2rem}
+  nav.tabs .side-brand b{color:var(--mango)}
+  footer{margin-bottom:0}
+  main{padding:1.6rem 2rem 2rem}
+}
+
+/* ---------- Punto de venta ---------- */
+.venta{display:grid;gap:1rem}
+@media(min-width:900px){.venta{grid-template-columns:1fr 360px;align-items:start}.carrito{position:sticky;top:1.5rem}}
+.grid-prod{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.8rem}
+.prod{background:#fff;color:var(--cacao);border:2px solid var(--cacao);border-radius:var(--radio);padding:.9rem;text-align:left;display:grid;gap:.4rem;position:relative;transition:transform .2s,box-shadow .2s;box-shadow:4px 4px 0 var(--cacao)}
+.prod:hover:not(:disabled){transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--cacao);background:#fff}
+.prod:active:not(:disabled){transform:translate(2px,2px);box-shadow:2px 2px 0 var(--cacao)}
+.prod:disabled{opacity:.45;box-shadow:4px 4px 0 var(--cacao)}
+.prod .bolis{font-size:2.4rem;line-height:1;transition:transform .3s cubic-bezier(.3,1.6,.5,1)}
+.prod:hover:not(:disabled) .bolis{transform:rotate(-12deg) scale(1.1)}
+.prod.salta .bolis{animation:salta .55s cubic-bezier(.3,1.6,.5,1)}
+@keyframes salta{0%{transform:scale(1)}35%{transform:translateY(-22px) scale(1.2) rotate(8deg)}70%{transform:translateY(0) scale(.92)}100%{transform:none}}
+.prod .nom{font-weight:800}
+.prod .meta{font-size:.82rem;opacity:.75}
+.prod.nuevo{background:transparent;border-style:dashed;box-shadow:none;align-content:center;justify-items:center;text-align:center}
+.prod.nuevo:hover:not(:disabled){transform:none;box-shadow:none}
+.badge{position:absolute;top:.5rem;right:.5rem;background:var(--maracuya);color:#fff;border:2px solid var(--cacao);border-radius:999px;font-size:.72rem;font-weight:800;padding:.1rem .5rem}
+
+.linea{display:grid;grid-template-columns:1fr auto;gap:.4rem;align-items:center;padding:.5rem 0;border-bottom:1px dashed rgba(43,26,18,.3)}
+.qty{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
+.qty button{padding:.3rem .7rem;border-radius:10px}
+.pagos{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin:.6rem 0}
+.pagos button{background:#fff;color:var(--cacao);border:2px solid var(--cacao);padding:.6rem .3rem;font-size:.9rem}
+.pagos button[aria-pressed="true"]{background:var(--cacao);color:var(--crema)}
+.total{font-family:'Fraunces',serif;font-size:2.2rem;font-weight:900;margin:.6rem 0}
+.cobrar{width:100%;background:var(--lulo);color:var(--cacao);border:2px solid var(--cacao);font-size:1.1rem}
+.cobrar:hover:not(:disabled){background:#82c94a}
+
+.overlay{position:fixed;inset:0;background:rgba(43,26,18,.55);display:none;place-items:center;z-index:40}
+.overlay.on{display:grid}
+.ok{background:var(--crema);border:3px solid var(--cacao);border-radius:24px;padding:2rem;text-align:center;animation:pop .5s cubic-bezier(.3,1.5,.5,1)}
+.ok .big{font-size:4rem;animation:rebote 1s ease infinite alternate}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:none;opacity:1}}
+@keyframes rebote{to{transform:translateY(-8px) rotate(-6deg)}}
+
+.toast{position:fixed;left:50%;bottom:5.5rem;transform:translate(-50%,30px);opacity:0;pointer-events:none;background:var(--cacao);color:var(--crema);padding:.7rem 1rem;border-radius:14px;font-weight:700;transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .3s;z-index:50;max-width:92vw;text-align:center}
+.toast.on{transform:translate(-50%,0);opacity:1}
+.toast.error{background:var(--rojo)}
+@media(min-width:900px){.toast{bottom:1.5rem}}
+
+/* ---------- Hojas (dialog) ---------- */
+dialog.hoja{border:3px solid var(--cacao);border-radius:24px 24px 0 0;padding:1.4rem;width:min(520px,100%);margin:auto auto 0;background:var(--crema);color:var(--cacao);max-height:90dvh;overflow:auto}
+dialog.hoja::backdrop{background:rgba(43,26,18,.5)}
+dialog.hoja[open]{animation:sube .4s cubic-bezier(.2,.8,.2,1)}
+@keyframes sube{from{transform:translateY(100%)}to{transform:none}}
+@media(min-width:900px){
+  dialog.hoja{margin:auto;border-radius:24px}
+  dialog.hoja[open]{animation:aparece .3s ease}
+}
+@keyframes aparece{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
+.form{display:grid;gap:.8rem;margin-top:.8rem}
+.fila{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.acciones{display:flex;gap:.5rem;justify-content:flex-end;margin-top:.4rem}
+
+/* ---------- Listas, tablas, indicadores ---------- */
+.lista{display:grid;gap:.7rem}
+.item{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.item .info{display:grid;gap:.15rem}
+.historial{margin-top:.6rem;border-top:2px dashed rgba(43,26,18,.3);padding-top:.4rem}
+.abono-form{margin-top:.7rem}
+.abono-form input{width:170px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.8rem;margin-bottom:1rem}
+.kpi{background:var(--cacao);color:var(--crema);border-radius:var(--radio);padding:1rem}
+.kpi .n{font-family:'Fraunces',serif;font-size:1.9rem;font-weight:900}
+.kpi small{opacity:.75}
+.panel2{display:grid;gap:1rem}
+@media(min-width:900px){.panel2{grid-template-columns:1.2fr 1fr}.panel2.una-columna{grid-template-columns:1fr}}
+.barras{display:grid;gap:.6rem}
+.barra{display:grid;gap:.25rem}
+.barra .track{background:#fff;border:2px solid var(--cacao);border-radius:999px;height:20px;overflow:hidden}
+.barra .fill{height:100%;width:0;background:var(--c,var(--mango));transition:width 1s cubic-bezier(.2,.8,.2,1)}
+.barra.anim .fill{width:var(--p)}
+.chart{width:100%;height:220px;display:block}
+.chart rect{transform-box:fill-box;transform-origin:bottom;transform:scaleY(0);transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+.chart.anim rect{transform:scaleY(1)}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:.5rem .3rem;border-bottom:1px dashed rgba(43,26,18,.3);font-size:.95rem}
+.aviso{background:#fff;border:2px dashed var(--maracuya);border-radius:12px;padding:.6rem .8rem;font-weight:700;margin-top:.9rem}
+.ancho-auto{width:auto}
+
+/* ---------- Impresión (Descargar PDF de Estadísticas) ---------- */
+@media print{
+  nav.tabs,header.top,footer,.no-print,.toast,.view:not(#v-estadisticas){display:none!important}
+  body{background:#fff}
+  .app{display:block}
+  main{padding:0;max-width:none}
+  .view{animation:none}
+  #v-estadisticas{display:block!important}
+  .card,.kpi{box-shadow:none;break-inside:avoid}
+  .kpi{background:#eee;color:#2b1a12}
+  .chart rect{transform:scaleY(1);transition:none}
+  .barra .fill{width:var(--p);transition:none}
+}
+
+/* ---------- Movimiento reducido ---------- */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
